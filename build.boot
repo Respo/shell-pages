@@ -44,7 +44,7 @@
         (script {:attrs {:id "config" :type "text/edn" :innerHTML (pr-str data)}}))
       (body {}
         (div {:attrs {:id "app"}})
-        (script {:attrs {:src "main.js"}})))))
+        (script {:attrs {:src "/main.js"}})))))
 
 (deftask html-file
   "task to generate HTML file"
@@ -67,7 +67,7 @@
     (target :dir #{"src/"})
     (html-file :data {:build? false})
     (reload :on-jsload 'stack-workflow.core/on-jsload!
-            :cljs-asset-path ".")
+            :cljs-asset-path "/")
     (cljs :compiler-options {:language-in :ecmascript5})
     (target)))
 

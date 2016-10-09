@@ -14,7 +14,7 @@
     (div
       {:style (merge ui/global)}
       (comp-sidebar)
-      (div {:style ui/button} (comp-text "demo" nil))
+      (div {:style ui/button} (comp-text (pr-str store) nil))
       (comp-router (:router store) routes/dict routes/mode))))
 
 (def comp-container (create-comp :container render))

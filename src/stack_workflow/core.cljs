@@ -6,9 +6,20 @@
             [respo-router.util.listener :refer [listen! parse-address]]
             [stack-workflow.routes :as routes]))
 
-(defn dispatch! [op op-data])
-
 (defonce store-ref (atom {}))
+
+(defn dispatch! [op op-data]
+  (println "dispatch!" op op-data)
+  (let [new-store (case
+                    op
+                    :router/nav
+                    (assoc
+                      @store-ref
+                      :router
+                      (parse-address op-data routes/dict))
+                    @store-ref)]
+    (println new-store)
+    (reset! store-ref new-store)))
 
 (defonce states-ref (atom {}))
 
