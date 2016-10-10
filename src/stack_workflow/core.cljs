@@ -4,9 +4,20 @@
             [stack-workflow.comp.container :refer [comp-container]]
             [cljs.reader :refer [read-string]]
             [respo-router.util.listener :refer [listen! parse-address]]
-            [stack-workflow.routes :as routes]))
+            [stack-workflow.routes :as routes]
+            [stack-workflow.schema :as schema]))
 
-(defonce store-ref (atom {}))
+(defonce store-ref
+ (let [store-el (.querySelector js/document "#store")]
+   (if (some? store-el)
+     (atom (pr-str (.-innerHTML store-el)))
+     (atom
+       (assoc
+         schema/store
+         :router
+         (parse-address
+           (str (.-pathname js/location) (.-search js/location))
+           routes/dict))))))
 
 (defn dispatch! [op op-data]
   (println "dispatch!" op op-data)

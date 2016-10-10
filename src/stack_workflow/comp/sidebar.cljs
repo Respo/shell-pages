@@ -10,6 +10,7 @@
   (fn [state mutate!]
     (div
       {}
+      (div {:event {:click (on-route "/")}} (comp-text "/" nil))
       (div
         {:event {:click (on-route "/about.html")}}
         (comp-text "about.html" nil))

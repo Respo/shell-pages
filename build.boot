@@ -67,7 +67,8 @@
     (target :dir #{"src/"})
     (html-file :data {:build? false})
     (reload :on-jsload 'stack-workflow.core/on-jsload!
-            :cljs-asset-path "/")
+            ; adding custom domain with hosts and Nginx
+            :cljs-asset-path "http://shell-pages")
     (cljs :compiler-options {:language-in :ecmascript5})
     (target)))
 
@@ -88,7 +89,7 @@
 
 (deftask rsync []
   (with-pre-wrap fileset
-    (sh "rsync" "-r" "target/" "repo.tiye.me:repo/mvc-works/stack-workflow" "--exclude" "main.out" "--delete")
+    (sh "rsync" "-r" "target/" "respo.site:repo/Respo/shell-pages" "--exclude" "main.out" "--delete")
     fileset))
 
 (deftask build []

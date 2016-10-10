@@ -4,12 +4,13 @@
     [respo.alias :refer [html head title script style meta' div link body]]
     [respo.render.html :refer [make-html make-string]]
     [stack-workflow.comp.container :refer [comp-container]]
+    [stack-workflow.schema :as schema]
     [planck.core :refer [spit]]
     [planck.shell :refer [sh]]
     [respo-router.util.listener :refer [parse-address]]))
 
 (defn use-text [x] {:attrs {:innerHTML x}})
-(defn html-dsl [data html-content ssr-stages]
+(defn html-dsl [data html-content ssr-stages router]
   (make-html
     (html {}
       (head {}
@@ -20,7 +21,9 @@
         (meta' {:attrs {:id "ssr-stages" :content (pr-str ssr-stages)}})
         (style (use-text "body {margin: 0;}"))
         (style (use-text "body * {box-sizing: border-box;}"))
-        (script {:attrs {:id "config" :type "text/edn" :innerHTML (pr-str data)}}))
+        (script {:attrs {:id "config" :type "text/edn" :innerHTML (pr-str data)}})
+        (let [store (assoc schema/store :router router)]
+          (script (:attrs {:id "store" :type "text/edn" :innerHTML (pr-str store)}))))
       (body {}
         (div {:attrs {:id "app" :innerHTML html-content}})
         (script {:attrs {:src "/main.js"}})))))
@@ -28,7 +31,7 @@
 (defn generate-html [router ssr-stages]
   (let [ tree (comp-container {:router router} ssr-stages)
          html-content (make-string tree)]
-    (html-dsl {:build? true} html-content ssr-stages)))
+    (html-dsl {:build? true} html-content ssr-stages router)))
 
 (def dict {"post" ["post"], "about.html" [], "home" []})
 
