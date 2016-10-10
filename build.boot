@@ -9,7 +9,7 @@
                  [mvc-works/hsl             "0.1.2"]
                  [respo/ui                  "0.1.2"]
                  [respo                     "0.3.25"]
-                 [respo/router              "0.1.0"]])
+                 [respo/router              "0.2.0"]])
 
 (require '[adzerk.boot-cljs   :refer [cljs]]
          '[adzerk.boot-reload :refer [reload]]
