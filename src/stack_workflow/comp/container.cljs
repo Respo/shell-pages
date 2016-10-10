@@ -5,8 +5,6 @@
             [respo.alias :refer [create-comp div span]]
             [respo.comp.space :refer [comp-space]]
             [respo.comp.text :refer [comp-text]]
-            [stack-workflow.routes :as routes]
-            [respo-router.comp.router :refer [comp-router]]
             [stack-workflow.comp.sidebar :refer [comp-sidebar]]))
 
 (defn render [store]
@@ -14,7 +12,6 @@
     (div
       {:style (merge ui/global)}
       (comp-sidebar)
-      (div {:style ui/button} (comp-text (pr-str store) nil))
-      (comp-router (:router store) routes/dict routes/mode))))
+      (div {:style ui/button} (comp-text (pr-str store) nil)))))
 
 (def comp-container (create-comp :container render))

@@ -9,7 +9,7 @@
                  [mvc-works/hsl             "0.1.2"]
                  [respo/ui                  "0.1.2"]
                  [respo                     "0.3.25"]
-                 [respo/router              "0.2.0"]])
+                 [respo/router              "0.2.1"]])
 
 (require '[adzerk.boot-cljs   :refer [cljs]]
          '[adzerk.boot-reload :refer [reload]]
@@ -58,13 +58,17 @@
         (add-resource tmp)
         (commit!)))))
 
+(deftask editor! []
+  (comp
+    (repl)
+    (start-stack-editor!)
+    (target :dir #{"src/"})))
+
 (deftask dev! []
   (set-env!
     :asset-paths #{"assets/"})
   (comp
-    (repl)
-    (start-stack-editor!)
-    (target :dir #{"src/"})
+    (editor!)
     (html-file :data {:build? false})
     (reload :on-jsload 'stack-workflow.core/on-jsload!
             ; adding custom domain with hosts and Nginx
